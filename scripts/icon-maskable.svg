@@ -4,26 +4,23 @@
       <stop offset="0%" stop-color="#181a1f"/>
       <stop offset="100%" stop-color="#08090b"/>
     </radialGradient>
-    <radialGradient id="glow" cx="50%" cy="50%" r="55%">
-      <stop offset="0%" stop-color="rgba(255,255,255,0.55)"/>
-      <stop offset="55%" stop-color="rgba(255,255,255,0.12)"/>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.16)"/>
+      <stop offset="60%" stop-color="rgba(255,255,255,0.05)"/>
       <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
     </radialGradient>
   </defs>
-  <!-- Full-bleed background so maskable crop has color -->
+  <!-- Full bleed so adaptive crop never reveals edges -->
   <rect width="1024" height="1024" fill="url(#bg)"/>
 
-  <!-- Composition fully inside the inner 80% safe area (centered around 512) -->
-  <!-- Curve from lower-left to upper-right within safe zone -->
-  <path d="M 360 660 Q 500 580 540 510 Q 580 440 660 360"
-        stroke="white" stroke-width="9" stroke-linecap="round" fill="none"
-        stroke-dasharray="2 22" opacity="0.55"/>
+  <!-- Compose inside the inner 80% safe zone (radius ≤ ~410 from center). -->
+  <circle cx="512" cy="512" r="320" fill="url(#glow)"/>
 
-  <circle cx="360" cy="660" r="20" fill="white" opacity="0.82"/>
-  <circle cx="540" cy="510" r="24" fill="white" opacity="0.9"/>
-
-  <!-- Hero node centered -->
-  <circle cx="660" cy="360" r="170" fill="url(#glow)"/>
-  <circle cx="660" cy="360" r="62" fill="white"/>
-  <circle cx="660" cy="360" r="62" stroke="rgba(255,255,255,0.3)" stroke-width="20" fill="none"/>
+  <!-- lucide Compass scaled smaller (scale=22) so it stays inside safe zone -->
+  <g fill="none" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round">
+    <!-- circle r=10 → r=220 -->
+    <circle cx="512" cy="512" r="220"/>
+    <!-- needle scaled by 22 -->
+    <polygon points="605.28,418.72 558.64,558.64 418.72,605.28 465.36,465.36"/>
+  </g>
 </svg>
