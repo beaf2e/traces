@@ -46,7 +46,7 @@ export default function LoginModal({
       {open && (
         <motion.div
           key="overlay"
-          className="fixed inset-0 z-50 grid place-items-center px-4"
+          className="pointer-events-auto fixed inset-0 z-50 grid place-items-center px-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
