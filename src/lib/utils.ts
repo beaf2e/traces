@@ -48,3 +48,14 @@ export function formatTime(iso: string) {
     minute: "2-digit",
   }).format(d);
 }
+
+export function dataURLToBlob(dataUrl: string): Blob {
+  const [header, b64] = dataUrl.split(",");
+  const mimeMatch = header.match(/data:(.*?);base64/);
+  const mime = mimeMatch?.[1] ?? "application/octet-stream";
+  const bin = atob(b64);
+  const len = bin.length;
+  const bytes = new Uint8Array(len);
+  for (let i = 0; i < len; i++) bytes[i] = bin.charCodeAt(i);
+  return new Blob([bytes], { type: mime });
+}

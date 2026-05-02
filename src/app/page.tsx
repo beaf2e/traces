@@ -4,8 +4,8 @@ import dynamic from "next/dynamic";
 import Sidebar from "@/components/Sidebar";
 import MemoryCard from "@/components/MemoryCard";
 import AddLogPanel from "@/components/AddLogPanel";
+import AuthBridge from "@/components/AuthBridge";
 
-// MapLibre touches `window` at import time — keep it client-only.
 const MapCanvas = dynamic(() => import("@/components/MapCanvas"), {
   ssr: false,
   loading: () => (
@@ -18,12 +18,12 @@ const MapCanvas = dynamic(() => import("@/components/MapCanvas"), {
 export default function Home() {
   return (
     <main className="fixed inset-0">
-      {/* Map fills the viewport; the rest floats above it as glass surfaces */}
+      <AuthBridge />
+
       <div className="absolute inset-0">
         <MapCanvas />
       </div>
 
-      {/* Subtle vignette to focus the path */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 z-10"

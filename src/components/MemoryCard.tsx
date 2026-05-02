@@ -1,9 +1,11 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { X, MapPin, Trash2 } from "lucide-react";
-import { useStore } from "@/lib/store";
+import { X, MapPin, Trash2, Loader2 } from "lucide-react";
+import { useState } from "react";
+import { useStore, DEMO_LOG_IDS } from "@/lib/store";
 import { formatDate, formatTime } from "@/lib/utils";
+import { publicPhotoUrl } from "@/lib/supabase";
 
 export default function MemoryCard() {
   const log = useStore((s) =>
@@ -11,6 +13,19 @@ export default function MemoryCard() {
   );
   const close = useStore((s) => s.select);
   const remove = useStore((s) => s.removeLog);
+  const [deleting, setDeleting] = useState(false);
+
+  const isDemo = log ? DEMO_LOG_IDS.has(log.id) : false;
+  const photoUrl = log?.photoPath ? publicPhotoUrl(log.photoPath) : null;
+
+  async function onDelete(id: string) {
+    setDeleting(true);
+    try {
+      await remove(id);
+    } finally {
+      setDeleting(false);
+    }
+  }
 
   return (
     <AnimatePresence>
@@ -23,10 +38,10 @@ export default function MemoryCard() {
           transition={{ type: "spring", stiffness: 260, damping: 28 }}
           className="glass pointer-events-auto absolute z-20 right-5 top-5 w-[360px] max-w-[calc(100vw-2.5rem)] rounded-3xl overflow-hidden"
         >
-          {log.photo && (
+          {photoUrl && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={log.photo}
+              src={photoUrl}
               alt=""
               className="w-full h-48 object-cover"
             />
@@ -36,6 +51,7 @@ export default function MemoryCard() {
               <div>
                 <div className="text-[11px] uppercase tracking-[0.16em] text-[var(--fg-faint)]">
                   {formatDate(log.date)} · {formatTime(log.date)}
+                  {isDemo && " · 데모"}
                 </div>
                 <h2 className="mt-1.5 text-[19px] font-semibold tracking-tight">
                   {log.title}
@@ -65,13 +81,20 @@ export default function MemoryCard() {
               <span className="text-[11px] text-[var(--fg-faint)] tabular-nums">
                 {log.coords[1].toFixed(4)}, {log.coords[0].toFixed(4)}
               </span>
-              <button
-                onClick={() => remove(log.id)}
-                className="btn-ghost flex items-center gap-1.5 text-[12.5px]"
-              >
-                <Trash2 size={13} />
-                삭제
-              </button>
+              {!isDemo && (
+                <button
+                  onClick={() => onDelete(log.id)}
+                  disabled={deleting}
+                  className="btn-ghost flex items-center gap-1.5 text-[12.5px]"
+                >
+                  {deleting ? (
+                    <Loader2 size={13} className="animate-spin" />
+                  ) : (
+                    <Trash2 size={13} />
+                  )}
+                  삭제
+                </button>
+              )}
             </div>
           </div>
         </motion.aside>
