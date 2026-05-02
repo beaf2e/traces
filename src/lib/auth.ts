@@ -34,6 +34,28 @@ export async function sendMagicLink(email: string) {
   if (error) throw error;
 }
 
+export async function signInWithPassword(email: string, password: string) {
+  const sb = supabase();
+  const { error } = await sb.auth.signInWithPassword({
+    email: email.trim(),
+    password,
+  });
+  if (error) throw error;
+}
+
+export async function signUpWithPassword(email: string, password: string) {
+  const sb = supabase();
+  const { data, error } = await sb.auth.signUp({
+    email: email.trim(),
+    password,
+  });
+  if (error) throw error;
+  // With mailer_autoconfirm=true, signUp returns a session immediately.
+  // If for some reason it didn't (project later requires confirmation),
+  // fall through and let the caller surface a "check email" message.
+  return data;
+}
+
 export async function signOut() {
   const sb = supabase();
   await sb.auth.signOut();
