@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Mail, ArrowRight, Loader2, Check, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { sendMagicLink } from "@/lib/auth";
 
 type Phase = "idle" | "sending" | "sent" | "error";
@@ -17,7 +18,12 @@ export default function LoginModal({
   const [email, setEmail] = useState("");
   const [phase, setPhase] = useState<Phase>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (open) {
@@ -41,7 +47,9 @@ export default function LoginModal({
     }
   }
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {open && (
         <motion.div
@@ -148,6 +156,7 @@ export default function LoginModal({
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }
