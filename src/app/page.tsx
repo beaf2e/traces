@@ -1,10 +1,13 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import MemoryCard from "@/components/MemoryCard";
 import AddLogPanel from "@/components/AddLogPanel";
 import AuthBridge from "@/components/AuthBridge";
+import Fab from "@/components/Fab";
+import LoginModal from "@/components/LoginModal";
 
 const MapCanvas = dynamic(() => import("@/components/MapCanvas"), {
   ssr: false,
@@ -16,6 +19,8 @@ const MapCanvas = dynamic(() => import("@/components/MapCanvas"), {
 });
 
 export default function Home() {
+  const [loginOpen, setLoginOpen] = useState(false);
+
   return (
     <main className="fixed inset-0">
       <AuthBridge />
@@ -37,7 +42,10 @@ export default function Home() {
         <Sidebar />
         <MemoryCard />
         <AddLogPanel />
+        <Fab onLoginRequest={() => setLoginOpen(true)} />
       </div>
+
+      <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
     </main>
   );
 }

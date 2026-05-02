@@ -36,6 +36,7 @@ type State = {
   removeLog: (id: string) => Promise<void>;
   select: (id: string | null) => void;
   startDraft: (draft: Draft) => void;
+  updateDraft: (partial: Partial<Draft>) => void;
   cancelDraft: () => void;
 };
 
@@ -188,5 +189,7 @@ export const useStore = create<State>()((set, get) => ({
 
   select: (id) => set({ selectedId: id }),
   startDraft: (draft) => set({ draft, selectedId: null }),
+  updateDraft: (partial) =>
+    set((s) => (s.draft ? { draft: { ...s.draft, ...partial } } : s)),
   cancelDraft: () => set({ draft: null }),
 }));

@@ -36,65 +36,72 @@ export default function MemoryCard() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 12, scale: 0.98 }}
           transition={{ type: "spring", stiffness: 260, damping: 28 }}
-          className="glass pointer-events-auto absolute z-20 right-5 top-5 w-[360px] max-w-[calc(100vw-2.5rem)] rounded-3xl overflow-hidden"
+          className="glass pointer-events-auto absolute z-30 rounded-3xl overflow-hidden flex flex-col
+            inset-x-3 bottom-3 max-h-[80dvh]
+            md:inset-auto md:right-5 md:top-5 md:bottom-auto md:w-[360px] md:max-w-[calc(100vw-2.5rem)] md:max-h-[calc(100vh-2.5rem)]"
+          style={{ paddingBottom: "max(env(safe-area-inset-bottom), 0px)" }}
         >
-          {photoUrl && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={photoUrl}
-              alt=""
-              className="w-full h-48 object-cover"
-            />
-          )}
-          <div className="px-5 pt-5 pb-4">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <div className="text-[11px] uppercase tracking-[0.16em] text-[var(--fg-faint)]">
-                  {formatDate(log.date)} · {formatTime(log.date)}
-                  {isDemo && " · 데모"}
-                </div>
-                <h2 className="mt-1.5 text-[19px] font-semibold tracking-tight">
-                  {log.title}
-                </h2>
-              </div>
-              <button
-                onClick={() => close(null)}
-                aria-label="닫기"
-                className="btn-ghost -mr-2 -mt-1 p-1.5 rounded-full"
-              >
-                <X size={16} />
-              </button>
-            </div>
-
-            {log.place && (
-              <div className="mt-3 flex items-center gap-1.5 text-[13px] text-[var(--fg-muted)]">
-                <MapPin size={13} className="opacity-70" />
-                {log.place}
-              </div>
+          <div className="flex-1 min-h-0 overflow-y-auto scroll-thin">
+            {photoUrl && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={photoUrl}
+                alt=""
+                className="w-full h-48 object-cover"
+              />
             )}
-
-            <p className="mt-4 text-[14.5px] leading-[1.65] text-[var(--fg)]/85 whitespace-pre-wrap">
-              {log.body}
-            </p>
-
-            <div className="mt-5 flex items-center justify-between">
-              <span className="text-[11px] text-[var(--fg-faint)] tabular-nums">
-                {log.coords[1].toFixed(4)}, {log.coords[0].toFixed(4)}
-              </span>
-              {!isDemo && (
+            <div className="px-5 pt-5 pb-4">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="text-[11px] uppercase tracking-[0.16em] text-[var(--fg-faint)]">
+                    {formatDate(log.date)} · {formatTime(log.date)}
+                    {isDemo && " · 데모"}
+                  </div>
+                  <h2 className="mt-1.5 text-[19px] font-semibold tracking-tight">
+                    {log.title}
+                  </h2>
+                </div>
                 <button
-                  onClick={() => onDelete(log.id)}
-                  disabled={deleting}
-                  className="btn-ghost flex items-center gap-1.5 text-[12.5px]"
+                  onClick={() => close(null)}
+                  aria-label="닫기"
+                  className="btn-ghost -mr-2 -mt-1 p-1.5 rounded-full shrink-0"
                 >
-                  {deleting ? (
-                    <Loader2 size={13} className="animate-spin" />
-                  ) : (
-                    <Trash2 size={13} />
-                  )}
-                  삭제
+                  <X size={16} />
                 </button>
+              </div>
+
+              {log.place && (
+                <div className="mt-3 flex items-center gap-1.5 text-[13px] text-[var(--fg-muted)]">
+                  <MapPin size={13} className="opacity-70" />
+                  {log.place}
+                </div>
               )}
+
+              {log.body && (
+                <p className="mt-4 text-[14.5px] leading-[1.65] text-[var(--fg)]/85 whitespace-pre-wrap">
+                  {log.body}
+                </p>
+              )}
+
+              <div className="mt-5 flex items-center justify-between">
+                <span className="text-[11px] text-[var(--fg-faint)] tabular-nums">
+                  {log.coords[1].toFixed(4)}, {log.coords[0].toFixed(4)}
+                </span>
+                {!isDemo && (
+                  <button
+                    onClick={() => onDelete(log.id)}
+                    disabled={deleting}
+                    className="btn-ghost flex items-center gap-1.5 text-[12.5px]"
+                  >
+                    {deleting ? (
+                      <Loader2 size={13} className="animate-spin" />
+                    ) : (
+                      <Trash2 size={13} />
+                    )}
+                    삭제
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </motion.aside>

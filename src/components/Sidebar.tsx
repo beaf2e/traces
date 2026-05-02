@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Compass, Plus, Locate, LogIn, LogOut } from "lucide-react";
-import { useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Compass, Plus, Locate, LogIn, LogOut, Menu, X } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { useStore, DEMO_LOG_IDS } from "@/lib/store";
 import { formatDate } from "@/lib/utils";
 import { useSession, signOut } from "@/lib/auth";
@@ -18,6 +18,12 @@ export default function Sidebar() {
   const dataLoading = useStore((s) => s.loading);
 
   const [loginOpen, setLoginOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Close drawer when a memory is selected (so map/card is visible)
+  useEffect(() => {
+    if (selectedId) setMobileOpen(false);
+  }, [selectedId]);
 
   const sorted = useMemo(
     () =>
@@ -31,6 +37,7 @@ export default function Sidebar() {
   const empty = !isDemo && sorted.length === 0;
 
   function locateMe() {
+    setMobileOpen(false);
     if (!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition(
       (pos) => {
@@ -43,27 +50,79 @@ export default function Sidebar() {
     );
   }
 
+  function pickLog(id: string) {
+    select(id);
+    setMobileOpen(false);
+  }
+
   return (
     <>
-      <motion.aside
-        initial={{ x: -16, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: [0.2, 0.8, 0.2, 1] }}
-        className="glass pointer-events-auto absolute z-20 left-5 top-5 bottom-5 w-[300px] max-w-[calc(100vw-2.5rem)] rounded-3xl flex flex-col"
+      {/* Mobile-only menu button — hidden when drawer is open */}
+      <button
+        onClick={() => setMobileOpen(true)}
+        aria-label="메뉴"
+        className={`md:hidden pointer-events-auto absolute z-30 left-4 top-[calc(env(safe-area-inset-top)+1rem)] glass rounded-full w-11 h-11 grid place-items-center transition-opacity ${
+          mobileOpen ? "opacity-0 pointer-events-none" : "opacity-100"
+        }`}
       >
-        <header className="px-5 pt-5 pb-4">
-          <div className="flex items-center gap-2">
-            <Compass size={18} className="opacity-90" />
-            <h1 className="text-[17px] font-semibold tracking-tight">traces</h1>
+        <Menu size={18} />
+      </button>
+
+      {/* Mobile backdrop */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.button
+            key="backdrop"
+            aria-label="닫기"
+            onClick={() => setMobileOpen(false)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
+            className="md:hidden pointer-events-auto fixed inset-0 z-30 bg-black/50 backdrop-blur-sm"
+          />
+        )}
+      </AnimatePresence>
+
+      <motion.aside
+        initial={false}
+        animate={{
+          x: mobileOpen
+            ? 0
+            : typeof window !== "undefined" && window.innerWidth >= 768
+              ? 0
+              : -360,
+        }}
+        transition={{ type: "spring", stiffness: 320, damping: 32 }}
+        className="glass pointer-events-auto absolute z-40 flex flex-col
+          inset-y-0 left-0 w-[88vw] max-w-[340px] rounded-l-none rounded-r-3xl
+          md:inset-y-5 md:left-5 md:bottom-5 md:w-[300px] md:rounded-3xl md:translate-x-0"
+        style={{
+          paddingTop: "env(safe-area-inset-top)",
+          paddingBottom: "env(safe-area-inset-bottom)",
+        }}
+      >
+        <header className="px-5 pt-5 pb-4 flex items-start justify-between gap-2">
+          <div>
+            <div className="flex items-center gap-2">
+              <Compass size={18} className="opacity-90" />
+              <h1 className="text-[17px] font-semibold tracking-tight">traces</h1>
+            </div>
+            <p className="mt-1.5 text-[12.5px] text-[var(--fg-muted)] leading-snug">
+              {isDemo
+                ? "지금 보는 건 데모 기록이에요. 로그인하면 나만의 지도가 시작됩니다."
+                : "지도를 클릭하거나 + 버튼으로 그 자리에 기록을 남기세요."}
+            </p>
           </div>
-          <p className="mt-1.5 text-[12.5px] text-[var(--fg-muted)] leading-snug">
-            {isDemo
-              ? "지금 보는 건 데모 기록이에요. 로그인하면 나만의 지도가 시작됩니다."
-              : "지도를 클릭해 그 자리에 오늘의 기록을 남기세요."}
-          </p>
+          <button
+            onClick={() => setMobileOpen(false)}
+            aria-label="메뉴 닫기"
+            className="md:hidden btn-ghost p-1.5 rounded-full -mr-1 -mt-1 shrink-0"
+          >
+            <X size={16} />
+          </button>
         </header>
 
-        {/* User pill */}
         <div className="px-5 pb-3">
           {authLoading ? (
             <div className="h-7 w-32 rounded-full bg-white/[0.04] animate-pulse" />
@@ -98,13 +157,16 @@ export default function Sidebar() {
         </div>
 
         {user && (
-          <div className="px-4 pb-3 flex items-center gap-2">
+          <div className="px-4 pb-3 flex items-center gap-2 flex-wrap">
             <button onClick={locateMe} className="btn-primary flex items-center gap-1.5">
               <Locate size={14} />
               현재 위치
             </button>
             <button
-              onClick={() => startDraft({ coords: [127.4892, 36.6376] })}
+              onClick={() => {
+                startDraft({ coords: [127.4892, 36.6376] });
+                setMobileOpen(false);
+              }}
               className="btn-ghost flex items-center gap-1 text-[12.5px]"
               title="지도를 클릭하는 대신 기본 위치로 새 기록 작성"
             >
@@ -133,7 +195,7 @@ export default function Sidebar() {
             return (
               <li key={log.id}>
                 <button
-                  onClick={() => select(log.id)}
+                  onClick={() => pickLog(log.id)}
                   className={`w-full text-left rounded-2xl px-3 py-2.5 transition-colors ${
                     active ? "bg-white/8" : "hover:bg-white/[0.04]"
                   }`}

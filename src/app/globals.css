@@ -32,6 +32,8 @@
 html,
 body {
   height: 100%;
+  /* Avoid iOS Safari pinch-to-zoom & double-tap zoom on UI controls */
+  touch-action: manipulation;
 }
 
 body {
