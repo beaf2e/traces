@@ -16,10 +16,12 @@ export default function Fab({ onLoginRequest }: { onLoginRequest: () => void }) 
   const { user } = useSession();
   const startDraft = useStore((s) => s.startDraft);
   const draft = useStore((s) => s.draft);
+  const selectedId = useStore((s) => s.selectedId);
   const [busy, setBusy] = useState(false);
 
-  // Hide while a draft is already open to avoid stacking on the sheet
-  if (draft) return null;
+  // Hide while another sheet is open so the FAB doesn't sit on top of the
+  // card's delete button or the new-log sheet.
+  if (draft || selectedId) return null;
 
   function handle() {
     if (!user) {
