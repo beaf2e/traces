@@ -1,0 +1,29 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#181a1f"/>
+      <stop offset="100%" stop-color="#08090b"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.55)"/>
+      <stop offset="55%" stop-color="rgba(255,255,255,0.12)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </radialGradient>
+  </defs>
+  <!-- Full-bleed background so maskable crop has color -->
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+
+  <!-- Composition fully inside the inner 80% safe area (centered around 512) -->
+  <!-- Curve from lower-left to upper-right within safe zone -->
+  <path d="M 360 660 Q 500 580 540 510 Q 580 440 660 360"
+        stroke="white" stroke-width="9" stroke-linecap="round" fill="none"
+        stroke-dasharray="2 22" opacity="0.55"/>
+
+  <circle cx="360" cy="660" r="20" fill="white" opacity="0.82"/>
+  <circle cx="540" cy="510" r="24" fill="white" opacity="0.9"/>
+
+  <!-- Hero node centered -->
+  <circle cx="660" cy="360" r="170" fill="url(#glow)"/>
+  <circle cx="660" cy="360" r="62" fill="white"/>
+  <circle cx="660" cy="360" r="62" stroke="rgba(255,255,255,0.3)" stroke-width="20" fill="none"/>
+</svg>

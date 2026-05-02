@@ -8,6 +8,7 @@ import AddLogPanel from "@/components/AddLogPanel";
 import AuthBridge from "@/components/AuthBridge";
 import Fab from "@/components/Fab";
 import LoginModal from "@/components/LoginModal";
+import PwaInstaller from "@/components/PwaInstaller";
 
 const MapCanvas = dynamic(() => import("@/components/MapCanvas"), {
   ssr: false,
@@ -46,6 +47,7 @@ export default function Home() {
       </div>
 
       <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
+      <PwaInstaller />
     </main>
   );
 }

@@ -1,0 +1,32 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#15171c"/>
+      <stop offset="100%" stop-color="#08090b"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.55)"/>
+      <stop offset="55%" stop-color="rgba(255,255,255,0.12)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+
+  <!-- Path between nodes -->
+  <path d="M 268 760 Q 460 620 520 480 Q 580 340 760 280"
+        stroke="white" stroke-width="8" stroke-linecap="round" fill="none"
+        stroke-dasharray="2 22" opacity="0.55"/>
+
+  <!-- Small node (starting point) -->
+  <circle cx="268" cy="760" r="22" fill="white" opacity="0.78"/>
+  <circle cx="268" cy="760" r="44" fill="white" opacity="0.10"/>
+
+  <!-- Mid node -->
+  <circle cx="520" cy="480" r="26" fill="white" opacity="0.88"/>
+  <circle cx="520" cy="480" r="56" fill="white" opacity="0.10"/>
+
+  <!-- Big main node with glow -->
+  <circle cx="760" cy="280" r="200" fill="url(#glow)"/>
+  <circle cx="760" cy="280" r="68" fill="white"/>
+  <circle cx="760" cy="280" r="68" stroke="rgba(255,255,255,0.28)" stroke-width="22" fill="none"/>
+</svg>
