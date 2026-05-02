@@ -11,6 +11,7 @@ import Map, {
 import { motion } from "framer-motion";
 import { useStore } from "@/lib/store";
 import type { LogEntry } from "@/lib/types";
+import { clusterByProximity } from "@/lib/cluster";
 
 const MAP_STYLE =
   "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
@@ -40,24 +41,29 @@ export default function MapCanvas() {
   const sorted = useMemo(() => sortByDate(logs), [logs]);
   const lastId = sorted.at(-1)?.id;
 
-  const pathGeo = useMemo(() => {
-    return {
+  // Cluster logs by spatial proximity so a Tokyo trip doesn't get drawn as
+  // a straight line back to Cheongju. Each cluster gets its own LineString.
+  const clusters = useMemo(() => clusterByProximity(logs), [logs]);
+
+  const pathGeo = useMemo(
+    () => ({
       type: "FeatureCollection" as const,
-      features:
-        sorted.length >= 2
-          ? [
-              {
-                type: "Feature" as const,
-                geometry: {
-                  type: "LineString" as const,
-                  coordinates: sorted.map((l) => l.coords),
-                },
-                properties: {},
-              },
-            ]
-          : [],
-    };
-  }, [sorted]);
+      features: clusters
+        .filter((c) => c.length >= 2)
+        .map((c, i) => ({
+          type: "Feature" as const,
+          id: i,
+          geometry: {
+            type: "LineString" as const,
+            coordinates: c.map((l) => l.coords),
+          },
+          properties: { clusterSize: c.length },
+        })),
+    }),
+    [clusters],
+  );
+
+  const hasAnyPath = pathGeo.features.length > 0;
 
   // Fly to selected
   useEffect(() => {
@@ -102,7 +108,7 @@ export default function MapCanvas() {
       attributionControl={{ compact: true }}
       cursor="crosshair"
     >
-      {sorted.length >= 2 && (
+      {hasAnyPath && (
         <Source id="path" type="geojson" data={pathGeo} lineMetrics>
           {/* Soft glow */}
           <Layer

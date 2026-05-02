@@ -86,10 +86,12 @@ export default function LoginModal({
       {open && (
         <motion.div
           key="overlay"
-          className="pointer-events-auto fixed inset-0 z-[100] grid place-items-center px-4"
+          className="pointer-events-auto fixed inset-0 z-[100] flex items-center justify-center"
           style={{
             paddingTop: "max(env(safe-area-inset-top), 1rem)",
             paddingBottom: "max(env(safe-area-inset-bottom), 1rem)",
+            paddingLeft: "max(env(safe-area-inset-left), 1rem)",
+            paddingRight: "max(env(safe-area-inset-right), 1rem)",
           }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -108,7 +110,7 @@ export default function LoginModal({
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 16, opacity: 0, scale: 0.98 }}
             transition={{ type: "spring", stiffness: 300, damping: 28 }}
-            className="glass relative w-[400px] max-w-full max-h-full overflow-y-auto rounded-3xl"
+            className="glass relative w-full max-w-[400px] max-h-full overflow-y-auto rounded-3xl"
           >
             <button
               onClick={onClose}
@@ -201,14 +203,14 @@ export default function LoginModal({
                         : "로그인"}
                   </button>
 
-                  <div className="flex items-center justify-between gap-2 pt-3 text-[12.5px]">
+                  <div className="flex flex-col items-stretch gap-2 pt-3 text-[12.5px]">
                     <button
                       type="button"
                       onClick={() => {
                         setIsSignup((v) => !v);
                         setErrorMsg(null);
                       }}
-                      className="text-[var(--fg-muted)] hover:text-white transition-colors"
+                      className="text-left text-[var(--fg-muted)] hover:text-white transition-colors py-1"
                     >
                       {isSignup
                         ? "← 기존 계정으로 로그인"
@@ -220,9 +222,9 @@ export default function LoginModal({
                         setMode("magic");
                         setErrorMsg(null);
                       }}
-                      className="text-[var(--fg-muted)] hover:text-white transition-colors"
+                      className="text-left text-[var(--fg-faint)] hover:text-white transition-colors py-1"
                     >
-                      메일 링크
+                      메일 링크로 받기
                     </button>
                   </div>
                 </form>

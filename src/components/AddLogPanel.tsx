@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Camera, X, Loader2, LogIn, MapPin } from "lucide-react";
+import { Camera, X, Loader2, LogIn, MapPin, ImageIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useStore } from "@/lib/store";
 import { useSession } from "@/lib/auth";
@@ -24,7 +24,8 @@ export default function AddLogPanel() {
   const [busy, setBusy] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-  const fileRef = useRef<HTMLInputElement>(null);
+  const cameraRef = useRef<HTMLInputElement>(null);
+  const galleryRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -140,32 +141,64 @@ export default function AddLogPanel() {
                         alt=""
                         className="w-full h-40 md:h-36 object-cover rounded-xl hairline"
                       />
-                      <button
-                        onClick={() => fileRef.current?.click()}
-                        className="absolute right-2 top-2 glass rounded-full p-1.5"
-                        aria-label="사진 변경"
-                      >
-                        <Camera size={13} />
-                      </button>
+                      <div className="absolute right-2 top-2 flex gap-1.5">
+                        <button
+                          onClick={() => cameraRef.current?.click()}
+                          className="glass rounded-full p-1.5"
+                          aria-label="다시 찍기"
+                          title="다시 찍기"
+                        >
+                          <Camera size={13} />
+                        </button>
+                        <button
+                          onClick={() => galleryRef.current?.click()}
+                          className="glass rounded-full p-1.5"
+                          aria-label="갤러리에서 변경"
+                          title="갤러리"
+                        >
+                          <ImageIcon size={13} />
+                        </button>
+                      </div>
                     </div>
                   ) : (
-                    <button
-                      onClick={() => fileRef.current?.click()}
-                      disabled={busy}
-                      className="w-full h-32 md:h-28 rounded-xl border border-dashed border-[var(--line-strong)] grid place-items-center text-[var(--fg-muted)] hover:border-white/30 hover:text-white transition-colors disabled:opacity-50"
-                    >
-                      {busy ? (
-                        <Loader2 size={18} className="animate-spin" />
-                      ) : (
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => cameraRef.current?.click()}
+                        disabled={busy}
+                        className="h-32 md:h-28 rounded-xl border border-dashed border-[var(--line-strong)] grid place-items-center text-[var(--fg-muted)] hover:border-white/30 hover:text-white hover:bg-white/[0.03] transition-colors disabled:opacity-50"
+                      >
+                        {busy ? (
+                          <Loader2 size={18} className="animate-spin" />
+                        ) : (
+                          <span className="flex flex-col items-center gap-1.5">
+                            <Camera size={20} />
+                            <span className="text-[12.5px] font-medium">사진 찍기</span>
+                          </span>
+                        )}
+                      </button>
+                      <button
+                        onClick={() => galleryRef.current?.click()}
+                        disabled={busy}
+                        className="h-32 md:h-28 rounded-xl border border-dashed border-[var(--line-strong)] grid place-items-center text-[var(--fg-muted)] hover:border-white/30 hover:text-white hover:bg-white/[0.03] transition-colors disabled:opacity-50"
+                      >
                         <span className="flex flex-col items-center gap-1.5">
-                          <Camera size={18} />
-                          <span className="text-[12.5px]">사진 추가하기</span>
+                          <ImageIcon size={20} />
+                          <span className="text-[12.5px]">갤러리에서</span>
                         </span>
-                      )}
-                    </button>
+                      </button>
+                    </div>
                   )}
+                  {/* iOS opens camera directly with capture="environment". Other browsers fall back to default file picker. */}
                   <input
-                    ref={fileRef}
+                    ref={cameraRef}
+                    type="file"
+                    accept="image/*"
+                    capture="environment"
+                    onChange={onPickFile}
+                    className="hidden"
+                  />
+                  <input
+                    ref={galleryRef}
                     type="file"
                     accept="image/*"
                     onChange={onPickFile}
