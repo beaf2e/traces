@@ -22,7 +22,7 @@ declare global {
 export default function PwaInstaller() {
   const [showHint, setShowHint] = useState(false);
 
-  // Register service worker
+  // Register service worker + listen for "new SW activated" so we can reload
   useEffect(() => {
     if (
       typeof window === "undefined" ||
@@ -31,11 +31,57 @@ export default function PwaInstaller() {
     ) {
       return;
     }
+
+    let cancelled = false;
+    let firstActivation = true;
+
+    const onMessage = (e: MessageEvent) => {
+      if (e.data?.type === "SW_ACTIVATED") {
+        // First activation = a brand new install, no need to reload.
+        // Subsequent activations = the SW was updated → fresh chunks live.
+        if (firstActivation) {
+          firstActivation = false;
+          return;
+        }
+        window.location.reload();
+      }
+    };
+    navigator.serviceWorker.addEventListener("message", onMessage);
+
     // Defer registration so it doesn't compete with first paint
     const t = window.setTimeout(() => {
-      navigator.serviceWorker.register("/sw.js").catch(() => {});
+      if (cancelled) return;
+      navigator.serviceWorker
+        .register("/sw.js", { updateViaCache: "none" })
+        .then((reg) => {
+          // If a new worker is waiting, tell it to take over immediately
+          const tellWaiting = () => {
+            if (reg.waiting) {
+              reg.waiting.postMessage({ type: "SKIP_WAITING" });
+            }
+          };
+          tellWaiting();
+          reg.addEventListener("updatefound", () => {
+            const next = reg.installing;
+            if (!next) return;
+            next.addEventListener("statechange", () => {
+              if (next.state === "installed" && navigator.serviceWorker.controller) {
+                // A previous SW was already controlling: this one is an update.
+                next.postMessage({ type: "SKIP_WAITING" });
+              }
+            });
+          });
+          // Force a check now so existing PWAs pull the new SW on first launch
+          reg.update().catch(() => {});
+        })
+        .catch(() => {});
     }, 1500);
-    return () => window.clearTimeout(t);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(t);
+      navigator.serviceWorker.removeEventListener("message", onMessage);
+    };
   }, []);
 
   // Decide whether to show the iOS install hint
