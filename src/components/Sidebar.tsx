@@ -4,10 +4,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Compass, Plus, Locate, LogIn, LogOut, Menu, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useStore, DEMO_LOG_IDS } from "@/lib/store";
-import { formatDate } from "@/lib/utils";
 import { useSession, signOut } from "@/lib/auth";
 import SearchBar from "./SearchBar";
 import LoginModal from "./LoginModal";
+import SwipeableLogRow from "./SwipeableLogRow";
 
 export default function Sidebar() {
   const { user, loading: authLoading } = useSession();
@@ -15,6 +15,7 @@ export default function Sidebar() {
   const selectedId = useStore((s) => s.selectedId);
   const select = useStore((s) => s.select);
   const startDraft = useStore((s) => s.startDraft);
+  const removeLog = useStore((s) => s.removeLog);
   const dataLoading = useStore((s) => s.loading);
 
   const [loginOpen, setLoginOpen] = useState(false);
@@ -191,33 +192,17 @@ export default function Sidebar() {
 
         <ul className="scroll-thin flex-1 overflow-y-auto px-2 pb-4 space-y-1">
           {sorted.map((log, i) => {
-            const active = log.id === selectedId;
+            const isDemo = DEMO_LOG_IDS.has(log.id);
             return (
-              <li key={log.id}>
-                <button
-                  onClick={() => pickLog(log.id)}
-                  className={`w-full text-left rounded-2xl px-3 py-2.5 transition-colors ${
-                    active ? "bg-white/8" : "hover:bg-white/[0.04]"
-                  }`}
-                >
-                  <div className="flex items-baseline justify-between gap-2">
-                    <span
-                      className={`text-[14px] font-medium tracking-tight truncate ${
-                        active ? "text-white" : "text-[var(--fg)]/90"
-                      }`}
-                    >
-                      {log.title}
-                    </span>
-                    <span className="shrink-0 text-[10.5px] tabular-nums text-[var(--fg-faint)]">
-                      {DEMO_LOG_IDS.has(log.id) ? "demo" : `#${sorted.length - i}`}
-                    </span>
-                  </div>
-                  <div className="mt-0.5 text-[11.5px] text-[var(--fg-faint)]">
-                    {formatDate(log.date)}
-                    {log.place ? ` · ${log.place}` : ""}
-                  </div>
-                </button>
-              </li>
+              <SwipeableLogRow
+                key={log.id}
+                log={log}
+                active={log.id === selectedId}
+                isDemo={isDemo}
+                indexLabel={isDemo ? "demo" : `#${sorted.length - i}`}
+                onSelect={() => pickLog(log.id)}
+                onDelete={() => removeLog(log.id)}
+              />
             );
           })}
           {empty && (
