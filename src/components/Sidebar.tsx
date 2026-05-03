@@ -46,7 +46,7 @@ export default function Sidebar() {
         startDraft({ coords: [pos.coords.longitude, pos.coords.latitude] });
       },
       () => {
-        startDraft({ coords: [127.4892, 36.6376] });
+        startDraft({ coords: [126.9769, 37.5759] });
       },
       { enableHighAccuracy: true, timeout: 8000 },
     );
@@ -166,7 +166,7 @@ export default function Sidebar() {
             </button>
             <button
               onClick={() => {
-                startDraft({ coords: [127.4892, 36.6376] });
+                startDraft({ coords: [126.9769, 37.5759] });
                 setMobileOpen(false);
               }}
               className="btn-ghost flex items-center gap-1 text-[12.5px]"

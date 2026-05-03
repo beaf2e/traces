@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useStore } from "@/lib/store";
 import { useSession } from "@/lib/auth";
 
-const FALLBACK_COORDS: [number, number] = [127.4892, 36.6376];
+const FALLBACK_COORDS: [number, number] = [126.9769, 37.5759];
 
 /**
  * Floating action button: one tap → request GPS → open new-log sheet.

@@ -17,9 +17,9 @@ const MAP_STYLE =
   "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
 
 const INITIAL_VIEW = {
-  longitude: 127.4892,
-  latitude: 36.6376,
-  zoom: 11.4,
+  longitude: 127.7,
+  latitude: 36.2,
+  zoom: 6.4,
   pitch: 32,
   bearing: -8,
 };
