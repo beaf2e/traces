@@ -10,6 +10,7 @@ import Fab from "@/components/Fab";
 import LoginModal from "@/components/LoginModal";
 import PwaInstaller from "@/components/PwaInstaller";
 import ThemeApplier from "@/components/ThemeApplier";
+import OnboardingHint from "@/components/OnboardingHint";
 
 const MapCanvas = dynamic(() => import("@/components/MapCanvas"), {
   ssr: false,
@@ -46,6 +47,7 @@ export default function Home() {
         <MemoryCard />
         <AddLogPanel />
         <Fab onLoginRequest={() => setLoginOpen(true)} />
+        <OnboardingHint />
       </div>
 
       <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />

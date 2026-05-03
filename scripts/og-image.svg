@@ -1,0 +1,43 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#15171c"/>
+      <stop offset="100%" stop-color="#08090b"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.16)"/>
+      <stop offset="65%" stop-color="rgba(255,255,255,0.04)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </radialGradient>
+    <radialGradient id="nodeGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.45)"/>
+      <stop offset="60%" stop-color="rgba(255,255,255,0.08)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Compass on the left, inlined absolute coords. Center=(320,315), scale=15 -->
+  <circle cx="320" cy="315" r="280" fill="url(#glow)"/>
+  <circle cx="320" cy="315" r="150" fill="none" stroke="white" stroke-width="22"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  <polygon points="383.6,251.4 351.8,346.8 256.4,378.6 288.2,283.2"
+           fill="none" stroke="white" stroke-width="22"
+           stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Trace constellation on the right -->
+  <path d="M 720 510 Q 850 440 920 350 Q 990 260 1110 210"
+        stroke="white" stroke-width="4" stroke-linecap="round"
+        fill="none" stroke-dasharray="2 16" opacity="0.55"/>
+
+  <circle cx="720" cy="510" r="30" fill="url(#nodeGlow)"/>
+  <circle cx="720" cy="510" r="11" fill="white" opacity="0.78"/>
+
+  <circle cx="920" cy="350" r="42" fill="url(#nodeGlow)"/>
+  <circle cx="920" cy="350" r="14" fill="white" opacity="0.88"/>
+
+  <circle cx="1110" cy="210" r="100" fill="url(#nodeGlow)"/>
+  <circle cx="1110" cy="210" r="32" fill="white"/>
+  <circle cx="1110" cy="210" r="32" fill="none"
+          stroke="rgba(255,255,255,0.3)" stroke-width="10"/>
+</svg>

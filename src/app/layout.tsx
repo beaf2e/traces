@@ -1,7 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
+const SITE_URL = "https://traces-8x6.pages.dev";
+const OG_IMAGE = `${SITE_URL}/og-image.png`;
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "traces — 지도 위에 남기는 하루",
   description: "당신의 발자취를 지도 위에 부드러운 궤적으로 기록하세요.",
   manifest: "/manifest.webmanifest",
@@ -21,6 +25,29 @@ export const metadata: Metadata = {
     shortcut: [{ url: "/icon-192.png" }],
   },
   formatDetection: { telephone: false },
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    url: SITE_URL,
+    siteName: "traces",
+    title: "traces — 지도 위에 남기는 하루",
+    description: "당신의 발자취를 지도 위에 부드러운 궤적으로 기록하세요.",
+    images: [
+      {
+        url: OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: "traces — 지도 위에 남기는 하루",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "traces — 지도 위에 남기는 하루",
+    description: "당신의 발자취를 지도 위에 부드러운 궤적으로 기록하세요.",
+    images: [OG_IMAGE],
+  },
 };
 
 export const viewport: Viewport = {

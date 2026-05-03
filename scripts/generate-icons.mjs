@@ -34,3 +34,11 @@ for (const [name, size, svg] of targets) {
 // Copy SVG as a vector option for any-size icons in manifest
 await writeFile(resolve(out, "icon.svg"), main);
 console.log("wrote public/icon.svg");
+
+// Open Graph / Twitter card image — 1200×630
+const og = await readFile(resolve(root, "scripts/og-image.svg"));
+await sharp(og, { density: 256 })
+  .resize(1200, 630, { fit: "cover" })
+  .png({ compressionLevel: 9 })
+  .toFile(resolve(out, "og-image.png"));
+console.log("wrote public/og-image.png (1200×630)");
