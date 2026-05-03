@@ -10,6 +10,8 @@ export type LogEntry = {
   place?: string;
   /** Storage path within the photos bucket. Resolves to a public URL. */
   photoPath?: string;
+  /** Optional absolute photo URL (used by demo seeds and external imports). */
+  photoUrl?: string;
 };
 
 export type LogRow = {

@@ -57,6 +57,7 @@ const DEMO_LOGS: LogEntry[] = [
     body: "케이블카 대신 걸어 올라간 길. 발끝마다 도시가 펼쳐졌다.",
     coords: [126.9882, 37.5512],
     place: "남산서울타워",
+    photoUrl: "https://picsum.photos/seed/traces-namsan-night/1200/800",
   },
   {
     id: "demo-seoul-3",
@@ -65,6 +66,7 @@ const DEMO_LOGS: LogEntry[] = [
     body: "반포대교 분수쇼 끝나갈 무렵. 강물이 가장 조용한 시간.",
     coords: [126.9956, 37.5132],
     place: "반포한강공원",
+    photoUrl: "https://picsum.photos/seed/traces-hangang-river/1200/800",
   },
 
   // ── 대전 ──
@@ -91,6 +93,7 @@ const DEMO_LOGS: LogEntry[] = [
     body: "기다리는 시간도 향이 좋았다. 손에 쥔 빵이 따뜻했다.",
     coords: [127.4296, 36.3286],
     place: "성심당 본점",
+    photoUrl: "https://picsum.photos/seed/traces-bakery-warmth/1200/800",
   },
 
   // ── 부산 ──
@@ -101,6 +104,7 @@ const DEMO_LOGS: LogEntry[] = [
     body: "겨울 끝의 바닷가. 신발에 모래가 들어와도 좋았다.",
     coords: [129.1604, 35.1587],
     place: "해운대 해수욕장",
+    photoUrl: "https://picsum.photos/seed/traces-haeundae-beach/1200/800",
   },
   {
     id: "demo-busan-2",
@@ -117,6 +121,7 @@ const DEMO_LOGS: LogEntry[] = [
     body: "색이 모여 마을이 되는 풍경. 골목마다 다른 시간이 흘렀다.",
     coords: [129.0103, 35.0972],
     place: "감천문화마을",
+    photoUrl: "https://picsum.photos/seed/traces-gamcheon-alley/1200/800",
   },
 
   // ── 대구 ──
@@ -135,6 +140,7 @@ const DEMO_LOGS: LogEntry[] = [
     body: "노을이 물 위에 깔리던 시간. 누군가 휘파람을 불었다.",
     coords: [128.6249, 35.8333],
     place: "수성못",
+    photoUrl: "https://picsum.photos/seed/traces-suseong-sunset/1200/800",
   },
   {
     id: "demo-daegu-3",
@@ -169,6 +175,7 @@ const DEMO_LOGS: LogEntry[] = [
     body: "바람이 정말 잘 부는 곳. 머리도 마음도 가벼워진다.",
     coords: [126.9766, 35.1319],
     place: "무등산",
+    photoUrl: "https://picsum.photos/seed/traces-mudeung-ridge/1200/800",
   },
 ];
 

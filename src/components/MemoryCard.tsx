@@ -16,7 +16,8 @@ export default function MemoryCard() {
   const [deleting, setDeleting] = useState(false);
 
   const isDemo = log ? DEMO_LOG_IDS.has(log.id) : false;
-  const photoUrl = log?.photoPath ? publicPhotoUrl(log.photoPath) : null;
+  const photoUrl =
+    log?.photoUrl ?? (log?.photoPath ? publicPhotoUrl(log.photoPath) : null);
 
   async function onDelete(id: string) {
     setDeleting(true);
