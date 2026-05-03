@@ -62,33 +62,32 @@ export default function OnboardingHint() {
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: -8, opacity: 0 }}
         transition={{ type: "spring", stiffness: 320, damping: 28, delay: 0.6 }}
-        onClick={() => !expanded && setExpanded(true)}
-        className={`glass pointer-events-auto absolute z-30 left-1/2 -translate-x-1/2 ${
-          expanded ? "rounded-2xl cursor-default" : "rounded-full cursor-pointer"
+        onClick={() => setExpanded((v) => !v)}
+        className={`glass pointer-events-auto absolute z-30 left-1/2 -translate-x-1/2 cursor-pointer ${
+          expanded ? "rounded-2xl" : "rounded-full"
         }`}
         style={{
           top: "calc(env(safe-area-inset-top) + 1rem)",
-          maxWidth: expanded
-            ? "min(calc(100vw - 2rem), 480px)"
-            : "min(calc(100vw - 7.5rem), 480px)",
+          // Keep the original chip width in both states — only height changes.
+          maxWidth: "min(calc(100vw - 7.5rem), 480px)",
         }}
         role="button"
         aria-expanded={expanded}
       >
         <motion.div
           layout
-          className={`flex items-${expanded ? "start" : "center"} gap-2.5 ${
-            expanded ? "px-4 py-3" : "pl-3.5 pr-1.5 py-1.5"
+          className={`flex gap-2.5 pl-3.5 pr-1.5 ${
+            expanded ? "items-start py-2.5" : "items-center py-1.5"
           }`}
         >
           <Hand
-            size={expanded ? 14 : 13}
-            className={`opacity-70 shrink-0 ${expanded ? "mt-0.5" : ""}`}
+            size={13}
+            className={`opacity-70 shrink-0 ${expanded ? "mt-1" : ""}`}
           />
           <motion.span
             layout
             className={`text-[12.5px] text-[var(--fg)]/95 leading-relaxed ${
-              expanded ? "" : "truncate"
+              expanded ? "whitespace-normal" : "truncate"
             }`}
           >
             {message}
@@ -96,7 +95,9 @@ export default function OnboardingHint() {
           <button
             onClick={dismiss}
             aria-label="안내 닫기"
-            className="btn-ghost p-1 rounded-full shrink-0"
+            className={`btn-ghost p-1 rounded-full shrink-0 ${
+              expanded ? "mt-0.5" : ""
+            }`}
           >
             <X size={13} />
           </button>

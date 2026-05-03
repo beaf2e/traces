@@ -111,9 +111,15 @@ export default function Sidebar() {
               <h1 className="text-[17px] font-semibold tracking-tight">traces</h1>
             </div>
             <p className="mt-1.5 text-[12.5px] text-[var(--fg-muted)] leading-snug">
-              {isDemo
-                ? "지금 보는 건 데모 기록이에요. 로그인하면 나만의 지도가 시작됩니다."
-                : "지도를 클릭하거나 + 버튼으로 그 자리에 기록을 남기세요."}
+              {isDemo ? (
+                <>
+                  지금 보는 건 데모 기록이에요.
+                  <br />
+                  로그인하면 나만의 지도가 시작됩니다.
+                </>
+              ) : (
+                "지도를 클릭하거나 + 버튼으로 그 자리에 기록을 남기세요."
+              )}
             </p>
           </div>
           <button
