@@ -20,6 +20,7 @@ export default function OnboardingHint() {
   const logs = useStore((s) => s.logs);
 
   const [dismissed, setDismissed] = useState<boolean | null>(null);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     try {
@@ -29,7 +30,8 @@ export default function OnboardingHint() {
     }
   }, []);
 
-  function dismiss() {
+  function dismiss(e?: React.MouseEvent) {
+    e?.stopPropagation();
     setDismissed(true);
     try {
       localStorage.setItem(KEY, "1");
@@ -55,21 +57,42 @@ export default function OnboardingHint() {
     <AnimatePresence>
       <motion.div
         key="hint"
+        layout
         initial={{ y: -16, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: -8, opacity: 0 }}
         transition={{ type: "spring", stiffness: 320, damping: 28, delay: 0.6 }}
-        className="glass pointer-events-auto absolute z-30 left-1/2 -translate-x-1/2 rounded-full"
+        onClick={() => !expanded && setExpanded(true)}
+        className={`glass pointer-events-auto absolute z-30 left-1/2 -translate-x-1/2 ${
+          expanded ? "rounded-2xl cursor-default" : "rounded-full cursor-pointer"
+        }`}
         style={{
           top: "calc(env(safe-area-inset-top) + 1rem)",
-          maxWidth: "min(calc(100vw - 7.5rem), 480px)",
+          maxWidth: expanded
+            ? "min(calc(100vw - 2rem), 480px)"
+            : "min(calc(100vw - 7.5rem), 480px)",
         }}
+        role="button"
+        aria-expanded={expanded}
       >
-        <div className="flex items-center gap-2.5 pl-3.5 pr-1.5 py-1.5">
-          <Hand size={13} className="opacity-70 shrink-0" />
-          <span className="text-[12.5px] truncate text-[var(--fg)]/95">
+        <motion.div
+          layout
+          className={`flex items-${expanded ? "start" : "center"} gap-2.5 ${
+            expanded ? "px-4 py-3" : "pl-3.5 pr-1.5 py-1.5"
+          }`}
+        >
+          <Hand
+            size={expanded ? 14 : 13}
+            className={`opacity-70 shrink-0 ${expanded ? "mt-0.5" : ""}`}
+          />
+          <motion.span
+            layout
+            className={`text-[12.5px] text-[var(--fg)]/95 leading-relaxed ${
+              expanded ? "" : "truncate"
+            }`}
+          >
             {message}
-          </span>
+          </motion.span>
           <button
             onClick={dismiss}
             aria-label="안내 닫기"
@@ -77,7 +100,7 @@ export default function OnboardingHint() {
           >
             <X size={13} />
           </button>
-        </div>
+        </motion.div>
       </motion.div>
     </AnimatePresence>
   );
