@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bfe3ee"/>
+      <stop offset="1" stop-color="#5a9cb8"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a7e9e"/>
+      <stop offset="1" stop-color="#1a4a6a"/>
+    </linearGradient>
+    <linearGradient id="sand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8d4a8"/>
+      <stop offset="1" stop-color="#c2a878"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="380" fill="url(#sky)"/>
+  <rect y="380" width="1200" height="240" fill="url(#sea)"/>
+  <rect y="620" width="1200" height="180" fill="url(#sand)"/>
+  <g stroke="#ffffff" stroke-width="1.4" fill="none" opacity=".45">
+    <path d="M0 460 Q 200 450 400 460 T 800 460 T 1200 460"/>
+    <path d="M0 510 Q 220 500 440 510 T 880 510 T 1200 510"/>
+    <path d="M0 570 Q 200 560 400 570 T 800 570 T 1200 570"/>
+  </g>
+  <g fill="#ffffff" opacity=".9">
+    <circle cx="950" cy="180" r="42"/>
+  </g>
+</svg>

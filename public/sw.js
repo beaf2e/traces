@@ -6,7 +6,7 @@
 //   - network-first for navigation, fall back to cached "/"
 //   - leave Supabase / Carto / Nominatim alone (cross-origin)
 //   - on activate, wipe old caches and tell open clients to reload
-const CACHE = "traces-v5";
+const CACHE = "traces-20260503011257";
 const SHELL = ["/", "/manifest.webmanifest", "/icon-192.png", "/apple-icon-180.png"];
 
 self.addEventListener("install", (event) => {

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd9c2"/>
+      <stop offset="1" stop-color="#e8a8c8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sky)"/>
+  <g>
+    <rect x="0" y="440" width="180" height="200" fill="#e87a7a"/>
+    <rect x="180" y="380" width="160" height="260" fill="#f0c878"/>
+    <rect x="340" y="420" width="180" height="220" fill="#7ac0a8"/>
+    <rect x="520" y="360" width="160" height="280" fill="#a8c8e8"/>
+    <rect x="680" y="400" width="180" height="240" fill="#d8a8d8"/>
+    <rect x="860" y="380" width="160" height="260" fill="#f0a878"/>
+    <rect x="1020" y="430" width="180" height="210" fill="#a8d8c0"/>
+  </g>
+  <g fill="#3a2a2a" opacity=".7">
+    <rect x="0" y="640" width="1200" height="160"/>
+  </g>
+  <g fill="#ffe8a8" opacity=".85">
+    <rect x="40" y="500" width="14" height="14"/>
+    <rect x="220" y="450" width="14" height="14"/>
+    <rect x="380" y="490" width="14" height="14"/>
+    <rect x="560" y="430" width="14" height="14"/>
+    <rect x="720" y="470" width="14" height="14"/>
+    <rect x="900" y="440" width="14" height="14"/>
+    <rect x="1060" y="500" width="14" height="14"/>
+  </g>
+</svg>

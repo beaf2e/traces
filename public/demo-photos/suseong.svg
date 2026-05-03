@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4a878"/>
+      <stop offset=".5" stop-color="#e87a7a"/>
+      <stop offset="1" stop-color="#7a4a8a"/>
+    </linearGradient>
+    <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7a4a8a"/>
+      <stop offset="1" stop-color="#3a2a4a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="500" fill="url(#sky)"/>
+  <rect y="500" width="1200" height="300" fill="url(#lake)"/>
+  <circle cx="900" cy="320" r="64" fill="#ffd98a" opacity=".95"/>
+  <g stroke="#ffd98a" stroke-width="1.5" fill="none" opacity=".55">
+    <line x1="900" y1="500" x2="900" y2="780"/>
+    <line x1="880" y1="500" x2="870" y2="780"/>
+    <line x1="920" y1="500" x2="930" y2="780"/>
+  </g>
+  <g fill="#1a0a14" opacity=".7">
+    <path d="M0 480 L80 460 L160 470 L240 450 L320 470 L400 460 L480 480 L560 470 L640 480 L720 460 L800 470 L880 460 L960 480 L1040 470 L1120 480 L1200 470 L1200 510 L0 510 Z"/>
+  </g>
+</svg>
