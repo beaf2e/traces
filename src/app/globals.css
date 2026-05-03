@@ -52,6 +52,17 @@ body {
   color: #fff;
 }
 
+/* Theme-driven map canvas filter (applied to canvas only, not markers) */
+.maplibregl-canvas {
+  transition: filter 0.5s ease;
+}
+html[data-theme="midnight"] .maplibregl-canvas {
+  filter: hue-rotate(205deg) saturate(0.55) brightness(0.92);
+}
+html[data-theme="sepia"] .maplibregl-canvas {
+  filter: sepia(0.45) hue-rotate(-12deg) saturate(0.85) brightness(0.95);
+}
+
 /* MapLibre — strip default chrome we replace ourselves */
 .maplibregl-ctrl-attrib,
 .maplibregl-ctrl-bottom-right,

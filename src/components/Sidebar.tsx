@@ -8,6 +8,7 @@ import { useSession, signOut } from "@/lib/auth";
 import SearchBar from "./SearchBar";
 import LoginModal from "./LoginModal";
 import SwipeableLogRow from "./SwipeableLogRow";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Sidebar() {
   const { user, loading: authLoading } = useSession();
@@ -213,8 +214,11 @@ export default function Sidebar() {
           )}
         </ul>
 
-        <footer className="px-5 py-3 border-t border-[var(--line)] text-[10.5px] text-[var(--fg-faint)] tracking-wider">
-          © {new Date().getFullYear()} traces
+        <footer className="px-5 py-3 border-t border-[var(--line)] flex items-center justify-between">
+          <span className="text-[10.5px] text-[var(--fg-faint)] tracking-wider">
+            © {new Date().getFullYear()} traces
+          </span>
+          <ThemeToggle />
         </footer>
       </motion.aside>
 

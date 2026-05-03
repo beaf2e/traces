@@ -11,6 +11,7 @@ import Map, {
 import { motion } from "framer-motion";
 import { useStore } from "@/lib/store";
 import type { LogEntry } from "@/lib/types";
+import { useCurrentTheme } from "@/lib/theme-store";
 
 const MAP_STYLE =
   "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
@@ -36,6 +37,7 @@ export default function MapCanvas() {
   const select = useStore((s) => s.select);
   const startDraft = useStore((s) => s.startDraft);
   const draft = useStore((s) => s.draft);
+  const theme = useCurrentTheme();
 
   const sorted = useMemo(() => sortByDate(logs), [logs]);
   const lastId = sorted.at(-1)?.id;
@@ -113,7 +115,7 @@ export default function MapCanvas() {
             id="path-glow"
             type="line"
             paint={{
-              "line-color": "rgba(255,255,255,0.18)",
+              "line-color": theme.pathGlow,
               "line-width": 8,
               "line-blur": 6,
             }}
@@ -124,7 +126,7 @@ export default function MapCanvas() {
             id="path-line"
             type="line"
             paint={{
-              "line-color": "rgba(255,255,255,0.7)",
+              "line-color": theme.pathLine,
               "line-width": 1.4,
               "line-dasharray": [0.6, 1.6],
             }}

@@ -9,6 +9,7 @@ import AuthBridge from "@/components/AuthBridge";
 import Fab from "@/components/Fab";
 import LoginModal from "@/components/LoginModal";
 import PwaInstaller from "@/components/PwaInstaller";
+import ThemeApplier from "@/components/ThemeApplier";
 
 const MapCanvas = dynamic(() => import("@/components/MapCanvas"), {
   ssr: false,
@@ -25,6 +26,7 @@ export default function Home() {
   return (
     <main className="fixed inset-0">
       <AuthBridge />
+      <ThemeApplier />
 
       <div className="absolute inset-0">
         <MapCanvas />
